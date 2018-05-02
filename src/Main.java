@@ -8,13 +8,24 @@ import java.util.*;
  * на экран надо вывести все слова в которых эта буква встречается чаще чем 2 раза
  */
 public class Main {
+    static String[] randomWords;
+    static List repeatingLetterWordsInList;
+    static int count = 1;
+
     public static void main(String[] args) {
-        String[] randomWords = generateRandomWords(2000);
+        randomWords = generateRandomWords(200);
         char letter = scanLetter();
-        List repeatingLetterWordsInList = findRepeatingLetterList(randomWords, letter);
-        Map repeatingLetterWordsInMap = findRepeatingLetterMap(randomWords, letter);
+        repeatingLetterWordsInList = findRepeatingLetterList(randomWords, letter);
+//        Map repeatingLetterWordsInMap = findRepeatingLetterMap(randomWords, letter);
+        while (repeatingLetterWordsInList.isEmpty()) {
+            randomWords = generateRandomWords(200);
+            repeatingLetterWordsInList = findRepeatingLetterList(randomWords, letter);
+            count++;
+            System.out.println("Попытка: " + count);
+        }
         System.out.println(repeatingLetterWordsInList);
-        System.out.println(repeatingLetterWordsInMap);
+
+//        System.out.println(repeatingLetterWordsInMap);
 
     }
 
@@ -35,9 +46,9 @@ public class Main {
         Map<String, Integer> map = new HashMap<>();
         for (String word : words) {
             char[] arr = word.toCharArray();
-            Arrays.sort(arr);
+//            Arrays.sort(arr);
             int count = countLetter(arr, letter);
-            if (count > 2) {
+            if (count >= 2) {
                 map.put(word, count);
             }
         }
@@ -48,9 +59,9 @@ public class Main {
         List list = new ArrayList();
         for (String word : words) {
             char[] arr = word.toCharArray();
-            Arrays.sort(arr);
+//            Arrays.sort(arr);
             for (int i = 0; i < arr.length - 1; i++) {
-                if (arr[i] == letter && arr[i] == arr[i + 1] && arr[i] == arr[i + 2]) {
+                if (arr[i] == letter && arr[i] == arr[i + 1]) {
                     list.add(word);
                 }
             }
