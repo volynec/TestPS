@@ -1,3 +1,7 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 /**
@@ -6,6 +10,7 @@ import java.util.*;
  * затем пройтись по массиву и составить по нему хэш таблицу со словами которые содержат более 2 символов "а"
  * на консоли мог ввести любую букву и она уже будет искаться в твоих словах,
  * на экран надо вывести все слова в которых эта буква встречается чаще чем 2 раза
+ * записать в файл
  */
 public class Main {
     static String[] randomWords;
@@ -24,9 +29,20 @@ public class Main {
             System.out.println("Попытка: " + count);
         }
         System.out.println(repeatingLetterWordsInList);
+        writeUsingFiles(repeatingLetterWordsInList);
 
-//        System.out.println(repeatingLetterWordsInMap);
 
+    }
+
+    private static void writeUsingFiles(List<String> repeatingLetterWordsInList) {
+        try {
+            for (String data : repeatingLetterWordsInList) {
+                Files.write(Paths.get("C:/files.txt"), data.getBytes(), StandardOpenOption.APPEND);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String[] generateRandomWords(int numberOfWords) {
@@ -55,8 +71,8 @@ public class Main {
         return map;
     }
 
-    public static List findRepeatingLetterList(String[] words, char letter) {
-        List list = new ArrayList();
+    public static List<String> findRepeatingLetterList(String[] words, char letter) {
+        List<String> list = new ArrayList();
         for (String word : words) {
             char[] arr = word.toCharArray();
 //            Arrays.sort(arr);
