@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -35,10 +38,22 @@ public class Main {
     }
 
     private static void writeUsingFiles(List<String> repeatingLetterWordsInList) {
+        File file = null;
+        FileWriter fw = null;
+        BufferedWriter bw = null;
         try {
-            for (String data : repeatingLetterWordsInList) {
-                Files.write(Paths.get("C:/files.txt"), data.getBytes(), StandardOpenOption.APPEND);
+            file = new File("files.txt");
+            if (!file.exists()) {
+                file.createNewFile();
             }
+            fw = new FileWriter(file);
+            bw = new BufferedWriter(fw);
+            for (String data : repeatingLetterWordsInList) {
+                bw.write(data);
+                bw.append(" ");
+            }
+            bw.close();
+            fw.close();
 
         } catch (IOException e) {
             e.printStackTrace();
